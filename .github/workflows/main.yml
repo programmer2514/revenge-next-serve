@@ -13,7 +13,9 @@ jobs:
       - name: Checkout downloader
         uses: actions/checkout@v5
       - name: Download latest artifact
-        run: ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}
+        run: |
+          chmod +x get-bundle.sh
+          ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}
       - name: Commit new revenge bundle
         run: |
           git config --global user.name 'Github Actions Bot'

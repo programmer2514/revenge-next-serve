@@ -1,5 +1,5 @@
 # revenge-next-serve
-A workflow that serves the latest version of Revenge Next via GitHub Pages.
+A workflow that serves the latest version of [Revenge Next](https://github.com/revenge-mod/revenge-bundle-next) via GitHub Pages.
 
 Simplifies the process of installing and using Revenge Next by providing a dedicated server for the latest `revenge.bundle`.
 

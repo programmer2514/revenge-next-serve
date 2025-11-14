@@ -2,12 +2,14 @@ name: Get Latest
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
   contents: write
 
 jobs:
-  download:
+  get:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout downloader

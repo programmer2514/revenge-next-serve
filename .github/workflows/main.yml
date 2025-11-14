@@ -1,0 +1,17 @@
+name: Get Latest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout downloader
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            get-bundle.sh
+          sparse-checkout-cone-mode: false
+      - name: Download latest artifact
+        run: ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}

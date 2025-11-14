@@ -18,6 +18,7 @@ jobs:
           ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}
       - name: Commit new revenge bundle
         run: |
+          git add revenge.bundle
           git config --global user.name 'Github Actions Bot'
           git config --global user.email 'programmer2514@users.noreply.github.com'
           git commit -am "Update Revenge Next bundle"

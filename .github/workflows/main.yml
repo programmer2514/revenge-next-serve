@@ -3,15 +3,20 @@ name: Get Latest
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   download:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout downloader
         uses: actions/checkout@v5
-        with:
-          sparse-checkout: |
-            get-bundle.sh
-          sparse-checkout-cone-mode: false
       - name: Download latest artifact
         run: ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}
+      - name: Commit new revenge bundle
+        run: |
+          git config --global user.name 'Github Actions Bot'
+          git config --global user.email 'programmer2514@users.noreply.github.com'
+          git commit -am "Update Revenge Next bundle"
+          git push

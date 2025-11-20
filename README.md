@@ -1,7 +1,9 @@
 # revenge-next-serve
-A workflow that serves the latest version of [Revenge Next](https://github.com/revenge-mod/revenge-bundle-next) via GitHub Pages.
+A workflow that builds and serves the latest version of [Revenge Next](https://github.com/revenge-mod/revenge-bundle-next) via GitHub Pages.
 
 Simplifies the process of installing and using Revenge Next by providing a dedicated server for the latest `revenge.bundle`.
+
+Includes the [Revenge Next Experimental Plugins](https://github.com/palmdevs/revenge-next-plugins).
 
 ### To update to Revenge Next from Revenge Classic, follow these steps:
 

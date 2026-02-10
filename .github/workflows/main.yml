@@ -1,7 +1,9 @@
-name: Get Latest
+name: Build Latest
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
   contents: write
@@ -12,11 +14,9 @@ jobs:
     steps:
       - name: Checkout downloader
         uses: actions/checkout@v5
-      - name: Download latest artifact
-        run: |
-          chmod +x get-bundle.sh
-          ./get-bundle.sh ${{ secrets.ACCESS_TOKEN }}
-      - name: Commit new revenge bundle
+      - name: Build latest bundle
+        run: source build.sh
+      - name: Commit new bundle
         run: |
           git add revenge.bundle
           git config --global user.name 'Github Actions Bot'

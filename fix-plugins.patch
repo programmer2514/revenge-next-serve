@@ -1,0 +1,63 @@
+From f97502d77fb8ac539023678f5dd515bcf8248c7f Mon Sep 17 00:00:00 2001
+From: Benjamin Pryor <43104632+programmer2514@users.noreply.github.com>
+Date: Mon, 3 Aug 2026 14:49:56 -0400
+Subject: [PATCH] Fix plugin deps
+
+---
+ plugins/better-typing-indicators/index.tsx | 6 +++---
+ plugins/flashbang/index.tsx                | 5 ++---
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/plugins/better-typing-indicators/index.tsx b/plugins/better-typing-indicators/index.tsx
+index a349a43..57fc260 100644
+--- a/plugins/better-typing-indicators/index.tsx
++++ b/plugins/better-typing-indicators/index.tsx
+@@ -8,7 +8,7 @@ import {
+ } from '@revenge-mod/modules/finders/filters'
+ import { after, instead } from '@revenge-mod/patcher'
+ import { PluginFlags, registerInternalPlugin } from '@revenge-mod/plugins/_'
+-import { isProxy } from '@revenge-mod/utils/proxy'
++import { isProxified } from '@revenge-mod/utils/proxy'
+ import { findInReactFiber } from '@revenge-mod/utils/react'
+ import { Image, Pressable, StyleSheet, View } from 'react-native'
+ import { SettingsComponent } from './settings'
+@@ -167,7 +167,7 @@ function patchTypingIndicator(
+     return after(TypingIndicatorModule, 'default', result => {
+         const tree = result as ReactElement<TypingIndicatorTreeProps>
+ 
+-        if (!isProxy(tree.props.renderItem))
++        if (!isProxified(tree.props.renderItem))
+             after(tree.props, 'renderItem', result => {
+                 const renderItemTree = result as ReactElement<
+                     RenderTypingIndicatorProps,
+@@ -175,7 +175,7 @@ function patchTypingIndicator(
+                 >
+ 
+                 if (renderItemTree.props.typingUserIds.length) {
+-                    if (!isProxy(renderItemTree.type))
++                    if (!isProxified(renderItemTree.type))
+                         after(renderItemTree, 'type', result =>
+                             patchTypingView(
+                                 result as ReactElement,
+diff --git a/plugins/flashbang/index.tsx b/plugins/flashbang/index.tsx
+index 4a96568..2c23451 100644
+--- a/plugins/flashbang/index.tsx
++++ b/plugins/flashbang/index.tsx
+@@ -1,12 +1,11 @@
+ import { ToastActionCreators } from '@revenge-mod/discord/actions'
+-import { Constants, ConstantsModuleId } from '@revenge-mod/discord/common'
++import { Constants, ConstantsModuleId } from '@revenge-mod/discord/common/constants'
+ import { lookupModule } from '@revenge-mod/modules/finders'
+ import {
+     withDependencies,
+     withProps,
+ } from '@revenge-mod/modules/finders/filters'
+-import { registerPlugin } from '@revenge-mod/plugins/_'
+-import { PluginFlags } from '@revenge-mod/plugins/constants'
++import { registerPlugin, PluginFlags } from '@revenge-mod/plugins/_'
+ import { onRunApplicationFinished } from '@revenge-mod/react/native'
+ import { unproxify } from '@revenge-mod/utils/proxy'
+ import { useRef } from 'react'
+-- 
+2.43.0
+

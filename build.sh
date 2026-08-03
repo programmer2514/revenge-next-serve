@@ -14,6 +14,12 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 git clone https://github.com/revenge-mod/revenge-bundle-next.git
 git clone https://github.com/PalmDevs/revenge-next-plugins.git
 
+# Apply my patch to fix plugin dependency mismatches with latest Revenge Next build
+# NOTE: This will probably break frequently
+cd revenge-next-plugins
+git apply ../fix-plugins.patch
+cd ..
+
 # Move plugins to the appropriate folder
 for PLUGIN_DIR in revenge-next-plugins/plugins/* ; do
   PLUGIN_ROOT=$(find "$PLUGIN_DIR" -name "index.*")
@@ -44,4 +50,3 @@ mv dist/revenge.bundle ..
 # Clean up build folder
 cd ..
 rm -rf revenge-bundle-next
-

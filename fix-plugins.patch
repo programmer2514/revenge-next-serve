@@ -1,18 +1,21 @@
-From 0db07f76fdee1d7ad13f4e525a922bea37d32ae0 Mon Sep 17 00:00:00 2001
+From d49c51fc823008fbf4ffeae44e93e04a08110ea9 Mon Sep 17 00:00:00 2001
 From: Benjamin Pryor <43104632+programmer2514@users.noreply.github.com>
-Date: Wed, 12 Aug 2026 16:44:24 -0400
+Date: Wed, 12 Aug 2026 17:29:36 -0400
 Subject: [PATCH] Fix plugin deps
 
 ---
- plugins/better-chat-buttons/index.tsx             | 3 ---
- plugins/better-typing-indicators/index.tsx        | 6 +++---
+ plugins/better-chat-buttons/index.tsx             | 4 +---
+ plugins/better-typing-indicators/index.tsx        | 7 ++++---
+ plugins/fake-nitro/index.ts                       | 1 +
  plugins/fake-nitro/patches/expressions/fakeify.ts | 2 --
- plugins/flashbang/index.tsx                       | 5 ++---
- plugins/messages-tab/index.tsx                    | 2 --
- 5 files changed, 5 insertions(+), 13 deletions(-)
+ plugins/flashbang/index.tsx                       | 6 +++---
+ plugins/hide-blocked-messages/index.ts            | 1 +
+ plugins/messages-tab/index.tsx                    | 3 +--
+ plugins/silent-typing/index.ts                    | 1 +
+ 8 files changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/plugins/better-chat-buttons/index.tsx b/plugins/better-chat-buttons/index.tsx
-index 94d9af2..fbcfedb 100644
+index 94d9af2..576897b 100644
 --- a/plugins/better-chat-buttons/index.tsx
 +++ b/plugins/better-chat-buttons/index.tsx
 @@ -1,7 +1,6 @@
@@ -23,7 +26,15 @@ index 94d9af2..fbcfedb 100644
  } from '@revenge-mod/modules/finders/filters'
  import { after, before } from '@revenge-mod/patcher'
  import { PluginFlags, registerInternalPlugin } from '@revenge-mod/plugins/_'
-@@ -265,14 +264,12 @@ type ByMemoizedNamedComponent = FilterGenerator<
+@@ -43,6 +42,7 @@ registerInternalPlugin<{ jsonStorage: Settings }>(
+             'Hiding all annoying chat buttons, or making them never collapse, all configurable.',
+         author: 'PalmDevs',
+         icon: 'ChatCheckIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         jsonStorage: {
+@@ -265,14 +265,12 @@ type ByMemoizedNamedComponent = FilterGenerator<
  const byMemoizedNamedComponent = createFilterGenerator(
      ([name], _, exports) => exports.type?.displayName === name,
      ([name]) => `byMemoizedNamedComponent(${name})`,
@@ -39,7 +50,7 @@ index 94d9af2..fbcfedb 100644
  
  interface ActionsRef {
 diff --git a/plugins/better-typing-indicators/index.tsx b/plugins/better-typing-indicators/index.tsx
-index a349a43..57fc260 100644
+index a349a43..7e92561 100644
 --- a/plugins/better-typing-indicators/index.tsx
 +++ b/plugins/better-typing-indicators/index.tsx
 @@ -8,7 +8,7 @@ import {
@@ -51,7 +62,15 @@ index a349a43..57fc260 100644
  import { findInReactFiber } from '@revenge-mod/utils/react'
  import { Image, Pressable, StyleSheet, View } from 'react-native'
  import { SettingsComponent } from './settings'
-@@ -167,7 +167,7 @@ function patchTypingIndicator(
+@@ -51,6 +51,7 @@ registerInternalPlugin<{
+             'Typing indicator in channels, with user avatars, tap to open profile, and more.',
+         author: 'Palm',
+         icon: 'SuperReactionIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         start({ cleanup, plugin, jsonStorage }) {
+@@ -167,7 +168,7 @@ function patchTypingIndicator(
      return after(TypingIndicatorModule, 'default', result => {
          const tree = result as ReactElement<TypingIndicatorTreeProps>
  
@@ -60,7 +79,7 @@ index a349a43..57fc260 100644
              after(tree.props, 'renderItem', result => {
                  const renderItemTree = result as ReactElement<
                      RenderTypingIndicatorProps,
-@@ -175,7 +175,7 @@ function patchTypingIndicator(
+@@ -175,7 +176,7 @@ function patchTypingIndicator(
                  >
  
                  if (renderItemTree.props.typingUserIds.length) {
@@ -69,6 +88,18 @@ index a349a43..57fc260 100644
                          after(renderItemTree, 'type', result =>
                              patchTypingView(
                                  result as ReactElement,
+diff --git a/plugins/fake-nitro/index.ts b/plugins/fake-nitro/index.ts
+index 87e6d6d..45ac17a 100644
+--- a/plugins/fake-nitro/index.ts
++++ b/plugins/fake-nitro/index.ts
+@@ -50,6 +50,7 @@ registerInternalPlugin<ApiOptions>(
+         description: 'Use Nitro features without Nitro.',
+         author: 'Palm, nexpid, aeongdesu, Dziurwa',
+         icon: 'NitroWheelIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         start(api) {
 diff --git a/plugins/fake-nitro/patches/expressions/fakeify.ts b/plugins/fake-nitro/patches/expressions/fakeify.ts
 index 9d3a076..745c48e 100644
 --- a/plugins/fake-nitro/patches/expressions/fakeify.ts
@@ -89,7 +120,7 @@ index 9d3a076..745c48e 100644
      FilterScopes.Initialized,
  ) as WithMemoizedNamedFunctionComponent
 diff --git a/plugins/flashbang/index.tsx b/plugins/flashbang/index.tsx
-index 4a96568..2c23451 100644
+index 4a96568..7349966 100644
 --- a/plugins/flashbang/index.tsx
 +++ b/plugins/flashbang/index.tsx
 @@ -1,12 +1,11 @@
@@ -107,8 +138,28 @@ index 4a96568..2c23451 100644
  import { onRunApplicationFinished } from '@revenge-mod/react/native'
  import { unproxify } from '@revenge-mod/utils/proxy'
  import { useRef } from 'react'
+@@ -46,6 +45,7 @@ registerPlugin(
+         description: '🪃💥⬜',
+         author: 'Palm',
+         icon: 'EyeSlashIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         start({ plugin }) {
+diff --git a/plugins/hide-blocked-messages/index.ts b/plugins/hide-blocked-messages/index.ts
+index 2ffae1e..3b86dfa 100644
+--- a/plugins/hide-blocked-messages/index.ts
++++ b/plugins/hide-blocked-messages/index.ts
+@@ -55,6 +55,7 @@ registerInternalPlugin<{ jsonStorage: Settings }>(
+         description:
+             'Hides messages from blocked or ignored users, and optionally removes replies to them.',
+         icon: 'DenyIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         jsonStorage: {
 diff --git a/plugins/messages-tab/index.tsx b/plugins/messages-tab/index.tsx
-index 980c50e..99c36d6 100644
+index 980c50e..48ee905 100644
 --- a/plugins/messages-tab/index.tsx
 +++ b/plugins/messages-tab/index.tsx
 @@ -7,7 +7,6 @@ import {
@@ -119,13 +170,33 @@ index 980c50e..99c36d6 100644
      FilterScopes,
      withName,
      withProps,
-@@ -273,6 +272,5 @@ type ByMemoizedAutoNamedComponent = FilterGenerator<
+@@ -57,6 +56,7 @@ registerInternalPlugin(
+         description: 'Brings the messages tab back',
+         id: 'palmdevs.messages-tab',
+         icon: 'ChatIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         init({ cleanup }) {
+@@ -273,6 +273,5 @@ type ByMemoizedAutoNamedComponent = FilterGenerator<
  const byMemoizedAutoNamedComponent = createFilterGenerator(
      ([name], _, exports) => exports.type?.name === name,
      ([name]) => `byMemoizedAutoNamedComponent(${name})`,
 -    FilterFlag.RequiresExports,
      FilterScopes.Initialized,
  ) as ByMemoizedAutoNamedComponent
+diff --git a/plugins/silent-typing/index.ts b/plugins/silent-typing/index.ts
+index 3412ac1..c36badc 100644
+--- a/plugins/silent-typing/index.ts
++++ b/plugins/silent-typing/index.ts
+@@ -9,6 +9,7 @@ registerInternalPlugin(
+         description: 'Disables the typing indicator when you type.',
+         author: 'Palm',
+         icon: 'KeyboardIcon',
++        version: { nums: [0, 0, 1] },
+     },
+     {
+         start({ cleanup }) {
 -- 
 2.43.0
 

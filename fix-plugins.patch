@@ -1,13 +1,43 @@
-From f97502d77fb8ac539023678f5dd515bcf8248c7f Mon Sep 17 00:00:00 2001
+From 0db07f76fdee1d7ad13f4e525a922bea37d32ae0 Mon Sep 17 00:00:00 2001
 From: Benjamin Pryor <43104632+programmer2514@users.noreply.github.com>
-Date: Mon, 3 Aug 2026 14:49:56 -0400
+Date: Wed, 12 Aug 2026 16:44:24 -0400
 Subject: [PATCH] Fix plugin deps
 
 ---
- plugins/better-typing-indicators/index.tsx | 6 +++---
- plugins/flashbang/index.tsx                | 5 ++---
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ plugins/better-chat-buttons/index.tsx             | 3 ---
+ plugins/better-typing-indicators/index.tsx        | 6 +++---
+ plugins/fake-nitro/patches/expressions/fakeify.ts | 2 --
+ plugins/flashbang/index.tsx                       | 5 ++---
+ plugins/messages-tab/index.tsx                    | 2 --
+ 5 files changed, 5 insertions(+), 13 deletions(-)
 
+diff --git a/plugins/better-chat-buttons/index.tsx b/plugins/better-chat-buttons/index.tsx
+index 94d9af2..fbcfedb 100644
+--- a/plugins/better-chat-buttons/index.tsx
++++ b/plugins/better-chat-buttons/index.tsx
+@@ -1,7 +1,6 @@
+ import { getModules, lookupModule } from '@revenge-mod/modules/finders'
+ import {
+     createFilterGenerator,
+-    FilterFlag,
+ } from '@revenge-mod/modules/finders/filters'
+ import { after, before } from '@revenge-mod/patcher'
+ import { PluginFlags, registerInternalPlugin } from '@revenge-mod/plugins/_'
+@@ -265,14 +264,12 @@ type ByMemoizedNamedComponent = FilterGenerator<
+ const byMemoizedNamedComponent = createFilterGenerator(
+     ([name], _, exports) => exports.type?.displayName === name,
+     ([name]) => `byMemoizedNamedComponent(${name})`,
+-    FilterFlag.RequiresExports,
+ ) as ByMemoizedNamedComponent
+ 
+ const byMemoizedNamedForwardRefExoticComponent = createFilterGenerator(
+     ([name], _, exports) =>
+         exports.type?.render?.length === 2 && exports.type.displayName === name,
+     ([name]) => `byMemoizedNamedForwardRefExoticComponent(${name})`,
+-    FilterFlag.RequiresExports,
+ ) as ByMemoizedNamedForwardRefExoticComponent
+ 
+ interface ActionsRef {
 diff --git a/plugins/better-typing-indicators/index.tsx b/plugins/better-typing-indicators/index.tsx
 index a349a43..57fc260 100644
 --- a/plugins/better-typing-indicators/index.tsx
@@ -39,6 +69,25 @@ index a349a43..57fc260 100644
                          after(renderItemTree, 'type', result =>
                              patchTypingView(
                                  result as ReactElement,
+diff --git a/plugins/fake-nitro/patches/expressions/fakeify.ts b/plugins/fake-nitro/patches/expressions/fakeify.ts
+index 9d3a076..745c48e 100644
+--- a/plugins/fake-nitro/patches/expressions/fakeify.ts
++++ b/plugins/fake-nitro/patches/expressions/fakeify.ts
+@@ -2,7 +2,6 @@ import { Stores } from '@revenge-mod/discord/flux'
+ import { getModules } from '@revenge-mod/modules/finders'
+ import {
+     createFilterGenerator,
+-    FilterFlag,
+     FilterScopes,
+     withProps,
+ } from '@revenge-mod/modules/finders/filters'
+@@ -410,6 +409,5 @@ type WithMemoizedNamedFunctionComponent = FilterGenerator<
+ const withMemoizedNamedFunctionComponent = createFilterGenerator(
+     ([name], _, exports) => exports.type?.name === name,
+     ([name]) => `byMemoizedNamedFunctionComponent(${name})`,
+-    FilterFlag.RequiresExports,
+     FilterScopes.Initialized,
+ ) as WithMemoizedNamedFunctionComponent
 diff --git a/plugins/flashbang/index.tsx b/plugins/flashbang/index.tsx
 index 4a96568..2c23451 100644
 --- a/plugins/flashbang/index.tsx
@@ -58,6 +107,25 @@ index 4a96568..2c23451 100644
  import { onRunApplicationFinished } from '@revenge-mod/react/native'
  import { unproxify } from '@revenge-mod/utils/proxy'
  import { useRef } from 'react'
+diff --git a/plugins/messages-tab/index.tsx b/plugins/messages-tab/index.tsx
+index 980c50e..99c36d6 100644
+--- a/plugins/messages-tab/index.tsx
++++ b/plugins/messages-tab/index.tsx
+@@ -7,7 +7,6 @@ import {
+ } from '@revenge-mod/modules/finders'
+ import {
+     createFilterGenerator,
+-    FilterFlag,
+     FilterScopes,
+     withName,
+     withProps,
+@@ -273,6 +272,5 @@ type ByMemoizedAutoNamedComponent = FilterGenerator<
+ const byMemoizedAutoNamedComponent = createFilterGenerator(
+     ([name], _, exports) => exports.type?.name === name,
+     ([name]) => `byMemoizedAutoNamedComponent(${name})`,
+-    FilterFlag.RequiresExports,
+     FilterScopes.Initialized,
+ ) as ByMemoizedAutoNamedComponent
 -- 
 2.43.0
 

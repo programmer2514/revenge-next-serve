@@ -3,12 +3,14 @@
 # Install git
 sudo apt-get install -y git
 
-# Install bun
-curl -fsSL https://bun.com/install | bash
+# Install deno and add it to PATH
+curl -fsSL https://deno.land/install.sh > deno_install.sh
 
-# Add bun to path
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+source deno_install.sh -y
+source "$HOME/.deno/env"
+
+# Remove deno install script
+rm deno_install.sh
 
 # Clone Revenge Next & Plugins source
 git clone https://github.com/revenge-mod/revenge-bundle-next.git
@@ -41,8 +43,8 @@ rm -rf revenge-next-plugins
 cd revenge-bundle-next
 
 # Build Revenge Next
-bun install
-bun run build
+deno install
+deno run --env-file=.env.example build
 
 # Move Revenge Next bundle
 mv dist/revenge.bundle ..

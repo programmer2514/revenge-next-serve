@@ -1,4 +1,7 @@
 # Revenge Next Build Server
+
+> ### Revenge Next has been superseded by [Valenced](https://valenced.app/). This repository is now deprecated
+
 A workflow that builds and serves the latest version of [Revenge Next](https://github.com/revenge-mod/revenge-bundle-next) via GitHub Pages.
 
 Simplifies the process of installing and using Revenge Next by providing a dedicated server for the latest `revenge.bundle`.
